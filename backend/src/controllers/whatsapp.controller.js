@@ -83,7 +83,7 @@ export const startOutreach = async (req, res) => {
             await saveDispatchLog({
                 name: lead.name,
                 phone: lead.phone,
-                status: result.success ? 'ENVIADO' : 'FALHA',
+                status: result.success ? 'ENVIADO' : `FALHA: ${result.error || 'Erro desconhecido'}`,
                 message: personalizedMessage
             }, userId);
 

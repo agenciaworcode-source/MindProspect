@@ -162,21 +162,37 @@ export class WhatsAppManager {
     async sendMessage(userId, number, message, mediaPath = null) {
         const session = this.sessions.get(userId);
         if (!session || session.status !== 'connected') {
-            throw new Error('WhatsApp não conectado');
+            return { success: false, error: 'WhatsApp não conectado' };
         }
 
-        let cleanedNumber = number.replace(/\D/g, '');
-        if (cleanedNumber.length >= 10 && cleanedNumber.length <= 11 && !cleanedNumber.startsWith('55')) {
-            cleanedNumber = '55' + cleanedNumber;
-        }
-        const jid = `${cleanedNumber}@s.whatsapp.net`;
+        try {
+            let cleanedNumber = number.replace(/\D/g, '');
+            if (cleanedNumber.length >= 10 && cleanedNumber.length <= 11 && !cleanedNumber.startsWith('55')) {
+                cleanedNumber = '55' + cleanedNumber;
+            }
+            
+            const jid = `${cleanedNumber}@s.whatsapp.net`;
 
-        if (mediaPath) {
-            const buffer = fs.readFileSync(mediaPath);
-            await session.sock.sendMessage(jid, { image: buffer, caption: message });
-        } else {
-            await session.sock.sendMessage(jid, { text: message });
+            // Verificar se o número existe no WhatsApp (evita envio para números inválidos)
+            console.log(`[User ${userId}] Verificando número: ${jid}`);
+            const [result] = await session.sock.onWhatsApp(jid);
+            
+            if (!result || !result.exists) {
+                console.log(`[User ${userId}] Número ${cleanedNumber} não registrado no WhatsApp.`);
+                return { success: false, error: 'Número não registrado no WhatsApp' };
+            }
+
+            if (mediaPath) {
+                const buffer = fs.readFileSync(mediaPath);
+                await session.sock.sendMessage(jid, { image: buffer, caption: message });
+            } else {
+                await session.sock.sendMessage(jid, { text: message });
+            }
+            
+            return { success: true };
+        } catch (err) {
+            console.error(`[User ${userId}] Erro ao enviar para ${number}:`, err);
+            return { success: false, error: err.message || 'Erro desconhecido no envio' };
         }
-        return { success: true };
     }
 }

@@ -5,9 +5,15 @@ let io;
 export const initSocket = (server) => {
     io = new Server(server, {
         cors: {
-            origin: "*",
-            methods: ["GET", "POST"]
-        }
+            origin: [
+                'https://comercial.idmindcorp.com.br', 
+                'https://backendcomercial.idmincorp.com.br',
+                'http://localhost:5173'
+            ],
+            methods: ["GET", "POST"],
+            credentials: true
+        },
+        transports: ['polling', 'websocket']
     });
 
     io.on('connection', (socket) => {

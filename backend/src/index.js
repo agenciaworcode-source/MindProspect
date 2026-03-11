@@ -50,7 +50,7 @@ const frontendDist = path.join(__dirname, '../../frontend/dist');
 if (fs.existsSync(frontendDist)) {
     console.log(`Frontend estático localizado em: ${frontendDist}`);
     app.use(express.static(frontendDist));
-    app.get('(.*)', (req, res) => {
+    app.get(/.*/, (req, res) => {
         res.sendFile(path.join(frontendDist, 'index.html'));
     });
 } else {

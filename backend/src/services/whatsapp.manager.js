@@ -48,8 +48,13 @@ export class WhatsAppManager {
             printQRInTerminal: false,
             auth: state,
             logger: pino({ level: 'silent' }),
-            browser: Browsers.macOS('Desktop'),
-            syncFullHistory: false
+            browser: Browsers.ubuntu('Chrome'),
+            syncFullHistory: false,
+            linkPreviewImageThumbnailWidth: 192,
+            generateHighQualityLinkPreview: true,
+            connectTimeoutMs: 60000,
+            defaultQueryTimeoutMs: 60000,
+            keepAliveIntervalMs: 10000
         });
 
         const sessionData = {

@@ -12,7 +12,7 @@ const Connection = () => {
         if (!user || !session) return;
 
         // Obter status inicial com JWT
-        fetch('/api/whatsapp/status', {
+        fetch(`${import.meta.env.VITE_API_URL}/api/whatsapp/status`, {
             headers: { 'Authorization': `Bearer ${session.access_token}` }
         })
             .then(res => res.json())
@@ -53,7 +53,7 @@ const Connection = () => {
         if (!user || !session) return;
         setLoading(true);
         try {
-            await fetch('/api/whatsapp/connect', {
+            await fetch(`${import.meta.env.VITE_API_URL}/api/whatsapp/connect`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${session.access_token}` }
             });
@@ -67,7 +67,7 @@ const Connection = () => {
     const handleDisconnect = async () => {
         if (!user || !session) return;
         try {
-            await fetch('/api/whatsapp/logout', {
+            await fetch(`${import.meta.env.VITE_API_URL}/api/whatsapp/logout`, {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${session.access_token}` }
             });

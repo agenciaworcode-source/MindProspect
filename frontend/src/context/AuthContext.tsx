@@ -62,7 +62,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Socket connection baseada no user
   useEffect(() => {
     if (user) {
-      const newSocket = io(import.meta.env.VITE_API_URL);
+      const newSocket = io(import.meta.env.VITE_API_URL, {
+        transports: ['polling', 'websocket'],
+        withCredentials: true
+      });
 
       newSocket.on('connect', () => {
         console.log('Connected to socket, joining room', user.id);

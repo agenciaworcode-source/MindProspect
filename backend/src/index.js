@@ -18,7 +18,11 @@ const server = http.createServer(app);
 const io = initSocket(server);
 
 app.use(cors({
-    origin: ['https://comercial.idmindcorp.com.br', 'http://localhost:5173'],
+            origin: [
+                'https://comercial.idmindcorp.com.br',
+                'https://backendcomercial.idmindcorp.com.br',
+                'http://localhost:5173'
+            ],
     credentials: true
 }));
 app.use(express.json());

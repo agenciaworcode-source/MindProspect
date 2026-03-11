@@ -1,0 +1,11 @@
+node_modules
+frontend/node_modules
+backend/node_modules
+.env
+.baileys_auth_sessions
+frontend/dist
+.DS_Store
+.npm
+dist
+build
+.vscode

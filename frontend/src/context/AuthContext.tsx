@@ -62,7 +62,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Socket connection baseada no user
   useEffect(() => {
     if (user) {
-      const newSocket = io();
+      const newSocket = io(import.meta.env.VITE_API_URL);
 
       newSocket.on('connect', () => {
         console.log('Connected to socket, joining room', user.id);

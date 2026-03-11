@@ -18,7 +18,7 @@ function AppContent() {
     if (!socket || !user || !session) return;
 
     // Buscar status inicial com JWT
-    fetch('/api/whatsapp/status', {
+    fetch(`${import.meta.env.VITE_API_URL}/api/whatsapp/status`, {
       headers: { 'Authorization': `Bearer ${session.access_token}` }
     })
       .then(res => res.json())

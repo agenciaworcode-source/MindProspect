@@ -34,7 +34,7 @@ const Dashboard: React.FC<DashboardProps> = ({ leads, setLeads }) => {
         e.preventDefault();
         setLoading(true);
         try {
-            const response = await axios.get(`/api/leads`, {
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/leads`, {
                 params: { niche, city },
                 headers: { 'Authorization': `Bearer ${session?.access_token}` }
             });
